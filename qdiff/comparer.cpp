@@ -90,9 +90,9 @@ int Comparer::compare(const fs::path& source, const fs::path& destination)
 void Comparer::reportDiffFile(const CompareItem& diffFile, compareMethod method)
 {
   if (diffFile.status == 'S')
-    std::cout << "Only in " << diffFile.source->parent_path().file_string() << ": " << diffFile.source->leaf() << std::endl;
+    std::cout << "Only in " << diffFile.source->parent_path().string() << ": " << diffFile.source->leaf() << std::endl;
   else if (diffFile.status == 'D')
-    std::cout << "Only in " << diffFile.destination->parent_path().file_string() << ": " << diffFile.destination->leaf() << std::endl;
+    std::cout << "Only in " << diffFile.destination->parent_path().string() << ": " << diffFile.destination->leaf() << std::endl;
   else
   {
     if (!(this->*method)(diffFile.source->string(), diffFile.destination->string()))
@@ -105,9 +105,9 @@ void Comparer::reportDiffFile(const CompareItem& diffFile, compareMethod method)
 void Comparer::reportDiffDirectory(const CompareItem& diffDirectory)
 {
   if (diffDirectory.status == 'S')
-    std::cout << "Only in " << diffDirectory.source->parent_path().file_string() << ": " << diffDirectory.source->leaf() << std::endl;
+    std::cout << "Only in " << diffDirectory.source->parent_path().string() << ": " << diffDirectory.source->leaf() << std::endl;
   else if (diffDirectory.status == 'D')
-    std::cout << "Only in " << diffDirectory.destination->parent_path().file_string() << ": " << diffDirectory.destination->leaf() << std::endl;
+    std::cout << "Only in " << diffDirectory.destination->parent_path().string() << ": " << diffDirectory.destination->leaf() << std::endl;
 }
 
 void Comparer::mirrorDiffFile(const CompareItem& diffFile, compareMethod method)
@@ -162,11 +162,11 @@ std::vector<shared_ptr<CompareItem> > Comparer::difference(const std::vector<sha
     else
     {
       if (!ignorecase)
-        compare = sourcePath->leaf().compare(destinationPath->leaf());
+        compare = sourcePath->leaf().string().compare(destinationPath->leaf().string());
       else
       {
-        std::string sourceLeaf = sourcePath->leaf();
-        std::string destinationLeaf = destinationPath->leaf();
+        std::string sourceLeaf = sourcePath->leaf().string();
+        std::string destinationLeaf = destinationPath->leaf().string();
         std::transform(sourceLeaf.begin(), sourceLeaf.end(), sourceLeaf.begin(), tolower);
         std::transform(destinationLeaf.begin(), destinationLeaf.end(), destinationLeaf.begin(), tolower);
         compare = sourceLeaf.compare(destinationLeaf);
@@ -212,5 +212,5 @@ bool Comparer::compareFileSize(const fs::path& source, const fs::path& destinati
 bool Comparer::compareCRC32(const fs::path& source, const fs::path& destination)
 {
   crc32 crc;
-  return crc.calculate(source.file_string()) == crc.calculate(destination.file_string());
+  return crc.calculate(source.string()) == crc.calculate(destination.string());
 }

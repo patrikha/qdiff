@@ -14,11 +14,11 @@ void PathTest::testPathManagement()
   fs::path c("C:\\pathx");
 
   fs::path d = b / c.filename();
-  CPPUNIT_ASSERT("C:\\patha\\pathb\\pathx" == d.file_string());
+  CPPUNIT_ASSERT("C:\\patha\\pathb\\pathx" == d.string());
 
   //c + a - b
-  fs::path e = c / (a.file_string().substr(b.file_string().length()));
-  CPPUNIT_ASSERT("C:\\pathx\\filea.ext" == e.file_string());
+  fs::path e = c / (a.string().substr(b.string().length()));
+  CPPUNIT_ASSERT("C:\\pathx\\filea.ext" == e.string());
 
-  CPPUNIT_ASSERT("C:\\pathx" == e.parent_path().file_string());
+  CPPUNIT_ASSERT("C:\\pathx" == e.parent_path().string());
 }

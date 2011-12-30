@@ -44,14 +44,14 @@ int Sort::partition(std::vector<fs::path>* ay, int lower, int upper)
 		while (left <= right)
 		{
       fs::path fetch = (*ay)[left];
-			if (fetch.leaf().compare(pivot.leaf()) > 0) // fetch > pivot
+			if (fetch.leaf() > pivot.leaf())
 				break;
 			left = left + 1;
 		}
 		while (left <= right)
 		{
       fs::path fetch = (*ay)[right];
-			if (fetch.leaf().compare(pivot.leaf()) <= 0) //fetch <= pivot
+			if (fetch.leaf() <= pivot.leaf())
 				break;
 			right = right - 1;
 		}

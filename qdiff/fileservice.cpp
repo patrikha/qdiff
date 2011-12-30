@@ -59,7 +59,7 @@ bool FileService::validPath(const fs::path& path)
   }
   catch (const std::exception ex)
   {
-    std::cout << "ERROR: invalid path " << path.file_string() << "; exception: " << ex.what() << std::endl;
+    std::cout << "ERROR: invalid path " << path.string() << "; exception: " << ex.what() << std::endl;
     return false;
   }
 }
@@ -84,7 +84,7 @@ std::vector<shared_ptr<fs::path> > FileService::getFiles(const fs::path& directo
   }
   catch (const std::exception ex)
   {
-    std::cout << "ERROR: can't get files in directory " << directory.file_string() << "; exception: " << ex.what() << std::endl;
+    std::cout << "ERROR: can't get files in directory " << directory.string() << "; exception: " << ex.what() << std::endl;
   }
 
   if (_sort)
@@ -112,7 +112,7 @@ std::vector<shared_ptr<fs::path> > FileService::getDirectories(const fs::path& d
   }
   catch (const std::exception ex)
   {
-    std::cout << "ERROR: can't get sub directories in directory " << directory.file_string() << "; exception: " << ex.what() << std::endl;
+    std::cout << "ERROR: can't get sub directories in directory " << directory.string() << "; exception: " << ex.what() << std::endl;
   }
 
   if (_sort)
@@ -126,13 +126,13 @@ bool FileService::copyFile(const fs::path& source, const fs::path& destination)
   try
   {
     if (fs::exists(destination))
-      os_chmod(destination.file_string().c_str(), S_IRUSR|S_IWUSR);
+      os_chmod(destination.string().c_str(), S_IRUSR|S_IWUSR);
     fs::copy_file(source, destination, fs::copy_option::overwrite_if_exists);
     return true;
   }
   catch (const std::exception ex)
   {
-    std::cout << "ERROR: copy file " << source.file_string() << " to " << destination.file_string() << "; exception: " << ex.what() << std::endl;
+    std::cout << "ERROR: copy file " << source.string() << " to " << destination.string() << "; exception: " << ex.what() << std::endl;
     return false;
   }
 }
@@ -141,12 +141,12 @@ bool FileService::deleteFile(const fs::path& file)
 {
   try
   {
-    os_chmod(file.file_string().c_str(), S_IRUSR|S_IWUSR);
+    os_chmod(file.string().c_str(), S_IRUSR|S_IWUSR);
     return fs::remove(file);
   }
   catch (const std::exception ex)
   {
-    std::cout << "ERROR: delete file " << file.file_string() << "; exception: " << ex.what() << std::endl;
+    std::cout << "ERROR: delete file " << file.string() << "; exception: " << ex.what() << std::endl;
     return false;
   }
 }
@@ -166,7 +166,7 @@ bool FileService::copyDirectory(const fs::path& source, const fs::path& destinat
       stack->pop();
 
       // dest = destination + (difference between path and source)
-      fs::path dest = destination / (path.file_string().substr(source.file_string().length()));
+      fs::path dest = destination / (path.string().substr(source.string().length()));
       fs::create_directory(dest);
 
       fs::directory_iterator end_itr;
@@ -181,7 +181,7 @@ bool FileService::copyDirectory(const fs::path& source, const fs::path& destinat
   }
   catch (const std::exception ex)
   {
-    std::cout << "ERROR: copy directory " << source.file_string() << " to " << destination.file_string() << "; exception: " << ex.what() << std::endl;
+    std::cout << "ERROR: copy directory " << source.string() << " to " << destination.string() << "; exception: " << ex.what() << std::endl;
     success = false;
   }
 
@@ -199,7 +199,7 @@ bool FileService::deleteDirectory(const fs::path& directory)
   }
   catch (const std::exception ex)
   {
-    std::cout << "ERROR: delete directory " << directory.file_string() << "; exception: " << ex.what() << std::endl;
+    std::cout << "ERROR: delete directory " << directory.string() << "; exception: " << ex.what() << std::endl;
   }
 
   return true;
